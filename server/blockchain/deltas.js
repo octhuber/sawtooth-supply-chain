@@ -16,8 +16,8 @@
  */
 'use strict'
 
-const blocks = require('../db/blocks')
-const state = require('../db/state')
+const blocks = require('../db/ds_blocks')
+const state = require('../db/ds_state')
 const protos = require('./protos')
 
 const deltaQueue = {

@@ -16,6 +16,7 @@
  */
 'use strict'
 
+const ds = require('./ds');
 const r = require('rethinkdb')
 const _ = require('lodash')
 const jsSchema = require('js-schema')
@@ -63,13 +64,17 @@ const runQuery = query => {
 }
 
 const queryWithCurrentBlock = query => {
-  return runQuery(
-    r.table('blocks')
-      .orderBy(r.desc('blockNum'))
-      .nth(0)('blockNum')
-      .do(query)
-  )
-}
+    return ds.createQuery('blocks')
+             .limit(1)
+             .select('__key__')
+             .order('__key__', { descending: true })
+             .run()
+             .then(([key]) => {
+                 const blockNum = parseInt(key[ds.KEY].name);
+
+                 return runQuery(query(blockNum));
+             });
+};
 
 // Runs a specified query against a database table
 const queryTable = (table, query, removeCursor = true) => {

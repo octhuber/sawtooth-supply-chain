@@ -39,8 +39,10 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
 
 WORKDIR /sawtooth-supply-chain/server
 
+RUN echo 'Installing.'
 COPY server/package.json .
 RUN npm install
+RUN echo 'Done.'
 
 EXPOSE 3000/tcp
 

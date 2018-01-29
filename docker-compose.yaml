@@ -88,12 +88,14 @@ services:
     ports:
       - '8020:3000'
     depends_on:
+      - datastore
       - validator
       - rethink
       - shell
     environment:
       - VALIDATOR_URL=tcp://validator:4004
       - DB_HOST=rethink
+      - DATASTORE_ENDPOINT=http://datastore:8081
     entrypoint: node index.js
 
   asset-client:
@@ -131,6 +133,15 @@ services:
     ports:
       - '8023:8080'
       - '28020:28015'
+
+  datastore:
+      image: singularities/datastore-emulator
+      container_name: supply-datastore
+      environment:
+        - DATASTORE_PROJECT_ID=project-test
+        - DATASTORE_LISTEN_ADDRESS=0.0.0.0:8081
+      ports:
+        - '8081:8081'
 
   validator:
     image: hyperledger/sawtooth-validator:1.0

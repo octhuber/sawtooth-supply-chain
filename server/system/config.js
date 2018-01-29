@@ -39,6 +39,7 @@ const initConfigValue = (key, defaultValue = null) => {
 // if not set in environment variables or config.json
 initConfigValue('PORT', 3000)
 initConfigValue('VALIDATOR_URL', 'tcp://localhost:4004')
+initConfigValue('DATASTORE_ENDPOINT', 'http://localhost:8081')
 initConfigValue('DB_HOST', 'localhost')
 initConfigValue('DB_PORT', 28015)
 initConfigValue('DB_NAME', 'supply_chain')
